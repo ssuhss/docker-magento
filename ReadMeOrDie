@@ -1,0 +1,38 @@
+1º - Criar um conta no https://hub.docker.com/
+
+2º - Instalar Docker:
+
+	$ sudo apt-get update 
+	$ sudo apt-get install wget
+	$ wget -qO- https://get.docker.com/ | sh
+	$ sudo usermod -aG docker usuário
+	- Reinicie sua máquina.
+
+	$ sudo su
+	$ curl -L "https://github.com/docker/compose/releases/download/1.8.1/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose (CASO NÃO FUNCIONE, PROCURAR LINK ATUALIZADO DO DOCKER COMPOSE)
+	$ chmod +x /usr/local/bin/docker-compose
+	$ docker login
+
+
+3º - Git clone do projeto na pasta "../docker-marabraz/" - https://USER@bitbucket.org/administrador_marabraz/marabraz.git marabraz
+
+4º - Inserir o local.xml e alterar o host para IP do Docker ($ ifconfig):
+	 <connection>
+            <host><![CDATA[172.17.0.1:3306]]></host>
+         </connection>
+
+5º - Dar permissão no banco:
+	GRANT ALL ON NOMEDOBANCO.* TO usr_marabraz@'%' IDENTIFIED BY 'SENHA';
+	flush privileges;
+
+5º - Inserir Bind Address no Mysql local:
+	$ sudo vi /etc/mysql/my.cnf -> 
+
+	bind-address            = 172.0.0.1
+	bind-address            = 0.0.0.0
+
+6º - Na pasta "docker-marabraz" quando for subir o Docker pela primeira vez rodar o comando:
+	docker-compose up --build
+	
+	Depois que 'buildado' é possível iniciar o docker com: 
+	docker-compose start
