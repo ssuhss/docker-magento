@@ -4,14 +4,14 @@ nginx:
         - "8080:88"
     volumes:
         - ./marabraz:/code
-        - ./config/marabraz.conf:/etc/nginx/conf.d/marabraz.conf
+        - ./config/marabraz.conf:/etc/nginx/conf.d/magento.conf
     links:
         - php
         - mongo
 php:
     build: ./php-fpm/
     volumes:
-        - ./marabraz:/code
+        - ./magento:/code
 mongo:
      image: mongo:latest
      ports:
