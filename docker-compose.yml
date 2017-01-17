@@ -3,7 +3,7 @@ nginx:
     ports:
         - "8080:88"
     volumes:
-        - ./marabraz:/code
+        - ./magento:/code
         - ./config/magento.conf:/etc/nginx/conf.d/magento.conf
     links:
         - php
