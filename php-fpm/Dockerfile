@@ -6,7 +6,7 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring
 
 #INSTALL PHP-MONGO / APC
 RUN apt-get update
-RUN apt-get install -y g++ mcrypt php5-dev php5-fpm php5-mcrypt
+RUN apt-get install -y g++ libmcrypt-dev php5-dev php5-fpm
 RUN pecl install apcu-4.0.11 \
     && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini
 RUN apt-get update \
@@ -24,7 +24,6 @@ RUN tar xfz /tmp/mongo.tar.gz -C /tmp/ \
 	&& docker-php-ext-install mongo\
 	&& docker-php-ext-enable mongo
 
-RUN php5enmod mcrypt
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug 
 RUN sed -i '1 a xdebug.remote_autostart=true' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
@@ -34,5 +33,25 @@ RUN sed -i '1 a xdebug.remote_connect_back=1 ' /usr/local/etc/php/conf.d/docker-
 RUN sed -i '1 a xdebug.remote_port=9000' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN sed -i '1 a xdebug.remote_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN sed -i '1 a xdebug.remote_enable=1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+
+
+
+RUN docker-php-ext-install mcrypt \
+    && docker-php-ext-enable mcrypt
+
+
+
+
+
+#RUN apt-get install php5-mcrypt -y
+#RUN ln -s /etc/php5/conf.d/mcrypt.ini /etc/php5/mods-available/mcrypt.ini
+#RUN php5enmod mcrypt
+
+
+
+
+#RUN apt-get install php5-mcrypt -y
+#RUN sed -i -e "/;mcrypt.modes_dir=/a extension=mcrypt.so" /etc/php5/fpm/php.ini
+#RUN sed -i -e "/;mcrypt.modes_dir=/a extension=mcrypt.so" /etc/php5/cli/php.ini
 
 
