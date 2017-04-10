@@ -1,6 +1,8 @@
 FROM php:5.6-fpm
 MAINTAINER Michel Silva <michel_silva_04@hotmail.com>
 
+ENV MEMORY_LIMIT 256M
+
 #PDO_MYSQL
 RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring
 
@@ -35,6 +37,10 @@ RUN sed -i '1 a xdebug.remote_connect_back=1 ' /usr/local/etc/php/conf.d/docker-
 RUN sed -i '1 a xdebug.remote_port=9000' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN sed -i '1 a xdebug.remote_host=127.0.0.1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 RUN sed -i '1 a xdebug.remote_enable=1' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+RUN sed -ri 's/^max_execution_time\s*=\s*.+/max_execution_time = 3000/g' /etc/php5/fpm/php.ini
+RUN sed -i -e "s/;display_errors = Off/display_errors = On/g" /etc/php5/fpm/php.ini
+RUN sed -i "s@^memory_limit =.*@memory_limit = $MEMORY_LIMIT@" /etc/php5/fpm/php.ini
+
 
 #MCRYPT
 RUN docker-php-ext-install mcrypt \
