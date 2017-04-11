@@ -1,13 +1,15 @@
 nginx:
     build: ./nginx/
     ports:
-        - "8080:88"
+        - "80:88"
     volumes:
         - ./magento:/code
         - ./config/magento.conf:/etc/nginx/conf.d/magento.conf
+#        - ./nginx/log/:/var/log/
     links:
         - php
         - mongo
+        - mysql
 php:
     build: ./php-fpm/
     volumes:
@@ -15,4 +17,16 @@ php:
 mongo:
      image: mongo:latest
      ports:
-        - "27019:27017"
+        - "27017:27017"
+mysql:
+   image: mysql:latest
+   hostname: mysql
+   ports:
+     - "3306:3306"
+   environment:
+     MYSQL_ROOT_PASSWORD: root
+     MYSQL_USER: usr_marabraz
+     MYSQL_PASSWORD: root
+     MYSQL_DATABASE: marabraz_04042017
+   volumes:
+     - ./dump/mara.sql:/mara.sql
