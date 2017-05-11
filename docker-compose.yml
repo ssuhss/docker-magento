@@ -5,7 +5,6 @@ nginx:
     volumes:
         - ./magento:/code
         - ./config/magento.conf:/etc/nginx/conf.d/magento.conf
-#        - ./nginx/log/:/var/log/
     links:
         - php
         - mongo
@@ -29,4 +28,5 @@ mysql:
      MYSQL_PASSWORD: root
      MYSQL_DATABASE: marabraz_04042017
    volumes:
-     - ./dump/mara.sql:/mara.sql
+     - ./mysql/dump/mara.sql:/mara.sql
+     - ./config/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
