@@ -8,7 +8,7 @@ RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring
 
 #INSTALL PHP-MONGO / APC
 RUN apt-get update
-RUN apt-get install -y g++ libmcrypt-dev php5-dev php5-fpm
+RUN apt-get install -y g++ libmcrypt-dev php5-dev php5-fpm libxml2-dev
 RUN pecl install apcu-4.0.11 \
     && echo extension=apcu.so > /usr/local/etc/php/conf.d/apcu.ini
 RUN apt-get update \
@@ -45,3 +45,5 @@ RUN sed -i "s@^memory_limit =.*@memory_limit = $MEMORY_LIMIT@" /etc/php5/fpm/php
 #MCRYPT
 RUN docker-php-ext-install mcrypt \
     && docker-php-ext-enable mcrypt
+
+RUN docker-php-ext-install soap
