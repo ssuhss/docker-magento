@@ -8,7 +8,7 @@ nginx:
     links:
         - php
         - mongo
-        - mysql
+        - redis
 php:
     build: ./php-fpm/
     volumes:
@@ -17,16 +17,7 @@ mongo:
      image: mongo:latest
      ports:
         - "27017:27017"
-mysql:
-   image: mysql:latest
-   hostname: mysql
-   ports:
-     - "3306:3306"
-   environment:
-     MYSQL_ROOT_PASSWORD: root
-     MYSQL_USER: usr_marabraz
-     MYSQL_PASSWORD: root
-     MYSQL_DATABASE: marabraz_04042017
-   volumes:
-     - ./mysql/dump/mara.sql:/mara.sql
-     - ./config/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+redis:
+    image: redis
+    ports:
+        - "6379:6379"
