@@ -1,7 +1,7 @@
 nginx:
     build: ./nginx/
     ports:
-        - "80:88"
+        - "80:80"
     volumes:
         - ./magento:/code
         - ./config/magento.conf:/etc/nginx/conf.d/magento.conf
@@ -13,6 +13,8 @@ php:
     build: ./php-fpm/
     volumes:
         - ./magento:/code
+    extra_hosts:
+        - "dev.marabraz.com.br:172.17.0.1"
 mongo:
      image: mongo:latest
      ports:
