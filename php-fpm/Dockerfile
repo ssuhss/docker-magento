@@ -1,7 +1,7 @@
 FROM php:5.6-fpm
 MAINTAINER Michel Silva <michel_silva_04@hotmail.com>
 
-ENV MEMORY_LIMIT 256M
+ENV MEMORY_LIMIT 512M
 
 #PDO_MYSQL
 RUN docker-php-ext-install pdo pdo_mysql mysqli mbstring
@@ -47,15 +47,11 @@ RUN docker-php-ext-install mcrypt \
     && docker-php-ext-enable mcrypt
 
 RUN docker-php-ext-install soap
-RUN apt-get install php5-xmlrpc
+RUN apt-get install php5-xmlrpc wget -y
 
 RUN sed -i -e "s/;error_log = php_errors.log/error_log = php_errors.log/g" /etc/php5/fpm/php.ini
 RUN sed -i -e "s/error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT/error_reporting = E_ALL/g" /etc/php5/fpm/php.ini
 RUN sed -i -e "s/;log_level = notice/log_level = debug/g" /etc/php5/fpm/php-fpm.conf
 RUN apt-get -y install vim
 
-#ENTRYPOINT ["/bin/sh", "-c" , "echo 172.17.0.1 dev.marabraz.com.br >> /etc/hosts" ]
-
-
-
-
+RUN sed -i -e "s/;listen.mode = 0660/listen.mode = 0660/g" /etc/php5/fpm/pool.d/www.conf
